@@ -1,8 +1,48 @@
 ╔══════════════════════════════════════════╗
-║        LAST BUILD: SUCCESS ✅            ║
+║      LAST BUILD: ERROR ❌                ║
+║   Push করার আগে এই error fix করুন।     ║
 ╚══════════════════════════════════════════╝
 
-Build passed at: 2026-10-30 12:20:28 UTC
-Run: #1210  |  Commit: 0aaeec4b311bf1a9f6561b2019863ce0c9aba8d5
+=== KOTLIN ERRORS ===
 
-No errors. Safe to push.
+=== UNRESOLVED / TYPE ERRORS ===
+
+=== BUILD FAILURE ===
+* What went wrong:
+BUILD FAILED in 1m 4s
+
+=== LAST 60 LINES ===
+Downloading https://services.gradle.org/distributions/gradle-8.9-bin.zip
+............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.9!
+
+Here are the highlights of this release:
+ - Enhanced Error and Warning Messages
+ - IDE Integration Improvements
+ - Daemon JVM Information
+
+For more details see https://docs.gradle.org/8.9/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+Calculating task graph as no cached configuration is available for tasks: assembleFullRelease
+
+> Configure project :app
+w: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:32:41: 'getter for buildDir: File!' is deprecated. Deprecated in Java
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793699419759.json
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Task 'assembleFullRelease' not found in root project 'PdfViewerMuPDF' and its subprojects.
+
+* Try:
+> Run gradlew tasks to get a list of available tasks.
+> For more on name expansion, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:name_abbreviation in the Gradle documentation.
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1m 4s
+Configuration cache entry stored.

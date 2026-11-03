@@ -1,4 +1,4 @@
-package com.rasel.RasFocus.tutorial
+package com.rajib.tutorial.tutorial
 
 // ============================================================
 //  Rajib Tutorial — Course & Video System

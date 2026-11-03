@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:868329616276:android:de9ee8d0f23dcc02231581",
         "android_client_info": {
-          "package_name": "com.rasel.RasFocus"
+          "package_name": "com.rajib.tutorial"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "868329616276-ne4gk2gdoeknt3aa1n62ckak99tiblim.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.rasel.RasFocus",
+            "package_name": "com.rajib.tutorial",
             "certificate_hash": "4cdc30b4e88251b9204e21dbf67318be11b5bf6f"
           }
         },

@@ -1,4 +1,4 @@
-package com.rasel.RasFocus
+package com.rajib.tutorial
 
 // ============================================================
 //  Rajib Tutorial App — Main Entry Point
@@ -35,7 +35,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
-import com.rasel.RasFocus.tutorial.RajibTutorialRoot
+import com.rajib.tutorial.tutorial.RajibTutorialRoot
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 

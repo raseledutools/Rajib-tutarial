@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.rasel.RasFocus"
+    namespace = "com.rajib.tutorial"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.rasel.RasFocus"
+        applicationId = "com.rajib.tutorial"
         minSdk = 26
         targetSdk = 35
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1

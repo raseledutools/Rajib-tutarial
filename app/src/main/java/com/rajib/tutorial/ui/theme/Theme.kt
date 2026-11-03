@@ -1,4 +1,4 @@
-package com.rasel.RasFocus.ui.theme
+package com.rajib.tutorial.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*

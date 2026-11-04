@@ -4,15 +4,15 @@
 ╚══════════════════════════════════════════╝
 
 === KOTLIN ERRORS ===
-e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:106:24: Unresolved reference: versionCodeOverride
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:107:24: Unresolved reference: versionCodeOverride
 
 === UNRESOLVED / TYPE ERRORS ===
-e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:106:24: Unresolved reference: versionCodeOverride
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:107:24: Unresolved reference: versionCodeOverride
                                    ^ Unresolved reference: versionCodeOverride
 
 === BUILD FAILURE ===
 * What went wrong:
-BUILD FAILED in 16s
+BUILD FAILED in 15s
 
 === LAST 60 LINES ===
 Starting a Gradle Daemon (subsequent builds will be faster)
@@ -20,19 +20,18 @@ Calculating task graph as no cached configuration is available for tasks: assemb
 
 > Configure project :app
 w: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:32:41: 'getter for buildDir: File!' is deprecated. Deprecated in Java
-w: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:99:68: 'OutputFile' is deprecated. Deprecated in Java
-e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:106:24: Unresolved reference: versionCodeOverride
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793763432058.json
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:107:24: Unresolved reference: versionCodeOverride
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793763810117.json
 
 FAILURE: Build failed with an exception.
 
 * Where:
-Build file '/home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts' line: 106
+Build file '/home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts' line: 107
 
 * What went wrong:
 Script compilation error:
 
-  Line 106:                 output.versionCodeOverride = variant.versionCode * 10 + abiCode
+  Line 107:                 output.versionCodeOverride = variant.versionCode * 10 + abiCode
                                    ^ Unresolved reference: versionCodeOverride
 
 1 error
@@ -43,5 +42,5 @@ Script compilation error:
 > Run with --scan to get full insights.
 > Get more help at https://help.gradle.org.
 
-BUILD FAILED in 16s
+BUILD FAILED in 15s
 Configuration cache entry stored.

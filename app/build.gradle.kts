@@ -42,6 +42,13 @@ android {
         debug {
             if ((System.getenv("KEYSTORE_BASE64") ?: "").isNotEmpty())
                 signingConfig = signingConfigs.getByName("fixedSigning")
+            // R8 shrinking — unused code বাদ দেয়, APK ছোট হয়
+            isMinifyEnabled   = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         release {
             if ((System.getenv("KEYSTORE_BASE64") ?: "").isNotEmpty())
@@ -109,7 +116,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.animation:animation")
 
     // ViewModel

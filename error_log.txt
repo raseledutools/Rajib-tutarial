@@ -4,33 +4,44 @@
 ╚══════════════════════════════════════════╝
 
 === KOTLIN ERRORS ===
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:106:24: Unresolved reference: versionCodeOverride
 
 === UNRESOLVED / TYPE ERRORS ===
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:106:24: Unresolved reference: versionCodeOverride
+                                   ^ Unresolved reference: versionCodeOverride
 
 === BUILD FAILURE ===
 * What went wrong:
-BUILD FAILED in 15s
+BUILD FAILED in 16s
 
 === LAST 60 LINES ===
 Starting a Gradle Daemon (subsequent builds will be faster)
-Calculating task graph as no cached configuration is available for tasks: assembleFullRelease
+Calculating task graph as no cached configuration is available for tasks: assembleDebug
 
 > Configure project :app
 w: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:32:41: 'getter for buildDir: File!' is deprecated. Deprecated in Java
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793763384196.json
+w: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:99:68: 'OutputFile' is deprecated. Deprecated in Java
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:106:24: Unresolved reference: versionCodeOverride
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793763432058.json
 
 FAILURE: Build failed with an exception.
 
+* Where:
+Build file '/home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts' line: 106
+
 * What went wrong:
-Task 'assembleFullRelease' not found in root project 'PdfViewerMuPDF' and its subprojects.
+Script compilation error:
+
+  Line 106:                 output.versionCodeOverride = variant.versionCode * 10 + abiCode
+                                   ^ Unresolved reference: versionCodeOverride
+
+1 error
 
 * Try:
-> Run gradlew tasks to get a list of available tasks.
-> For more on name expansion, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:name_abbreviation in the Gradle documentation.
 > Run with --stacktrace option to get the stack trace.
 > Run with --info or --debug option to get more log output.
 > Run with --scan to get full insights.
 > Get more help at https://help.gradle.org.
 
-BUILD FAILED in 15s
+BUILD FAILED in 16s
 Configuration cache entry stored.

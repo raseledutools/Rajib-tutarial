@@ -9,7 +9,7 @@
 
 === BUILD FAILURE ===
 * What went wrong:
-BUILD FAILED in 19s
+BUILD FAILED in 15s
 
 === LAST 60 LINES ===
 Starting a Gradle Daemon (subsequent builds will be faster)
@@ -17,7 +17,7 @@ Calculating task graph as no cached configuration is available for tasks: assemb
 
 > Configure project :app
 w: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/build.gradle.kts:32:41: 'getter for buildDir: File!' is deprecated. Deprecated in Java
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793699578075.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793763384196.json
 
 FAILURE: Build failed with an exception.
 
@@ -32,5 +32,5 @@ Task 'assembleFullRelease' not found in root project 'PdfViewerMuPDF' and its su
 > Run with --scan to get full insights.
 > Get more help at https://help.gradle.org.
 
-BUILD FAILED in 19s
+BUILD FAILED in 15s
 Configuration cache entry stored.

@@ -1,28 +1,30 @@
 package com.rajib.tutorial.tutorial
 
 // ============================================================
-//  Rajib Tutorial — Course & Video System
+//  Rajib Tutorial — User Side
 //
-//  Screens:
-//    RajibTutorialRoot        → entry point (checks login)
-//    TutorialLoginScreen      → email/password login
-//    CourseListScreen         → enrolled courses only
-//    VideoListScreen          → videos inside a course
-//    VideoPlayerScreen        → ExoPlayer + FLAG_SECURE
+//  Flow:
+//    RajibTutorialRoot
+//      → CourseListScreen   (enrolled courses)
+//          → VideoListScreen
+//              → YouTubePlayerScreen
 //
-//  Firestore structure:
-//    tutorial_users/{uid}/enrolledCourses: ["course_001", ...]
-//    tutorial_courses/{courseId}/
-//        title: String
-//        description: String
-//        videos: [ {id, title, cloudinaryUrl} ]
-//
-//  Admin: set tutorial_users/{uid}/role = "admin" in Firestore
+//  Firestore:
+//    tutorial_courses/{id}/
+//        courseName, title, className, subject, description
+//        videos: [{id, title, youtubeUrl, durationMinutes}]
+//    tutorial_users/{uid}/
+//        enrolledCourses: ["course_001", ...]
+//        role: "admin"  ← শুধু admin এর জন্য (Firestore console থেকে set)
 // ============================================================
 
 import android.app.Activity
+import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.annotation.OptIn
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -45,23 +47,26 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.media3.common.MediaItem
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-// ─────────────────────────────────────────────────────────────
-// Data models
-// ─────────────────────────────────────────────────────────────
+// ── Colours ──────────────────────────────────────────────────
+internal val TutBg      = Color(0xFF0F1923)
+internal val TutCard    = Color(0xFF1A2535)
+internal val TutAccent  = Color(0xFF4A9EFF)
+internal val TutAccent2 = Color(0xFF7B5CF5)
+internal val TutText    = Color(0xFFE8EDF2)
+internal val TutSub     = Color(0xFF8A9BB0)
+internal val TutGreen   = Color(0xFF34C98A)
+internal val TutRed     = Color(0xFFFF6B6B)
+
+// ── Data models ──────────────────────────────────────────────
 
 data class TutorialVideo(
     val id: String = "",
     val title: String = "",
-    val cloudinaryUrl: String = "",
+    val youtubeUrl: String = "",       // full YouTube URL বা video ID
     val durationMinutes: Int = 0
 )
 
@@ -72,161 +77,149 @@ data class TutorialCourse(
     val className: String = "",
     val subject: String = "",
     val description: String = "",
-    val thumbnailUrl: String = "",
     val videos: List<TutorialVideo> = emptyList()
 )
 
-// ─────────────────────────────────────────────────────────────
-// Colours
-// ─────────────────────────────────────────────────────────────
+// YouTube URL থেকে video ID বের করো
+fun extractYouTubeId(url: String): String {
+    if (url.isBlank()) return ""
+    // Already an ID (11 chars, no slash/dot)
+    if (url.length == 11 && !url.contains("/") && !url.contains(".")) return url
+    // youtu.be/ID
+    val shortPattern = Regex("""youtu\.be/([^?&\s]{11})""")
+    shortPattern.find(url)?.groupValues?.get(1)?.let { return it }
+    // youtube.com/watch?v=ID
+    val longPattern = Regex("""[?&]v=([^&\s]{11})""")
+    longPattern.find(url)?.groupValues?.get(1)?.let { return it }
+    // youtube.com/embed/ID
+    val embedPattern = Regex("""embed/([^?&\s]{11})""")
+    embedPattern.find(url)?.groupValues?.get(1)?.let { return it }
+    return url.takeLast(11) // fallback
+}
 
-private val TutBg       = Color(0xFF0F1923)
-private val TutCard     = Color(0xFF1A2535)
-private val TutAccent   = Color(0xFF4A9EFF)
-private val TutAccent2  = Color(0xFF7B5CF5)
-private val TutText     = Color(0xFFE8EDF2)
-private val TutSubtext  = Color(0xFF8A9BB0)
-
-// ─────────────────────────────────────────────────────────────
-// Root — decides which screen to show
-// ─────────────────────────────────────────────────────────────
+// ── Root ─────────────────────────────────────────────────────
 
 @Composable
 fun RajibTutorialRoot(onBack: () -> Unit) {
-    // RasFocus এর existing login session use করি — আলাদা login নেই
     var selectedCourse by remember { mutableStateOf<TutorialCourse?>(null) }
-    var selectedVideo by remember { mutableStateOf<TutorialVideo?>(null) }
+    var selectedVideo  by remember { mutableStateOf<TutorialVideo?>(null) }
+    var isAdmin        by remember { mutableStateOf(false) }
+    var showAdmin      by remember { mutableStateOf(false) }
 
     when {
-        selectedVideo != null -> VideoPlayerScreen(
-            video = selectedVideo!!,
+        showAdmin -> TutorialAdminScreen(onBack = { showAdmin = false })
+
+        selectedVideo != null -> YouTubePlayerScreen(
+            video  = selectedVideo!!,
             onBack = { selectedVideo = null }
         )
         selectedCourse != null -> VideoListScreen(
-            course = selectedCourse!!,
-            onVideoClick = { selectedVideo = it },
-            onBack = { selectedCourse = null }
+            course        = selectedCourse!!,
+            onVideoClick  = { selectedVideo = it },
+            onBack        = { selectedCourse = null }
         )
         else -> CourseListScreen(
+            isAdmin       = isAdmin,
+            onAdminReady  = { isAdmin = it },
             onCourseClick = { selectedCourse = it },
-            onBack = onBack
+            onAdminPanel  = { showAdmin = true },
+            onBack        = onBack
         )
     }
 }
 
-// ─────────────────────────────────────────────────────────────
-// Course List Screen
-// ─────────────────────────────────────────────────────────────
+// ── Course List ───────────────────────────────────────────────
 
 @Composable
 fun CourseListScreen(
+    isAdmin: Boolean,
+    onAdminReady: (Boolean) -> Unit,
     onCourseClick: (TutorialCourse) -> Unit,
+    onAdminPanel: () -> Unit,
     onBack: () -> Unit
 ) {
-    val db = FirebaseFirestore.getInstance()
-    val auth = FirebaseAuth.getInstance()
+    val db          = FirebaseFirestore.getInstance()
+    val auth        = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
-    val uid = currentUser?.uid ?: ""
-    val userEmail = currentUser?.email ?: ""
+    val uid         = currentUser?.uid ?: ""
+    val userEmail   = currentUser?.email ?: ""
 
-    var courses by remember { mutableStateOf<List<TutorialCourse>>(emptyList()) }
-    var loading by remember { mutableStateOf(true) }
-    var isAdmin by remember { mutableStateOf(false) }
-    var showAdminPanel by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
+    var courses  by remember { mutableStateOf<List<TutorialCourse>>(emptyList()) }
+    var loading  by remember { mutableStateOf(true) }
+    var adminVal by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(uid) {
         try {
             var enrolledIds: List<String> = emptyList()
-
             if (uid.isNotEmpty()) {
                 val userDoc = db.collection("tutorial_users").document(uid).get().await()
-                isAdmin = userDoc.getString("role") == "admin"
-
-                // Normal user হলে enrolledCourses fetch করো
-                if (!isAdmin) {
+                adminVal = userDoc.getString("role") == "admin"
+                onAdminReady(adminVal)
+                if (!adminVal) {
                     @Suppress("UNCHECKED_CAST")
                     enrolledIds = userDoc.get("enrolledCourses") as? List<String> ?: emptyList()
                 }
             }
-
             val loaded = mutableListOf<TutorialCourse>()
-            val snap = db.collection("tutorial_courses").get().await()
-            for (courseDoc in snap.documents) {
-                if (!courseDoc.exists()) continue
-
-                // Admin সব দেখবে; normal user শুধু enrolled courses দেখবে
-                if (!isAdmin && !enrolledIds.contains(courseDoc.id)) continue
-
+            val snap   = db.collection("tutorial_courses").get().await()
+            for (doc in snap.documents) {
+                if (!adminVal && !enrolledIds.contains(doc.id)) continue
                 @Suppress("UNCHECKED_CAST")
-                val videosRaw = courseDoc.get("videos") as? List<Map<String, Any>> ?: emptyList()
-                val videos = videosRaw.map { v ->
-                    TutorialVideo(
-                        id = v["id"] as? String ?: "",
-                        title = v["title"] as? String ?: "",
-                        cloudinaryUrl = v["cloudinaryUrl"] as? String ?: "",
+                val vr = doc.get("videos") as? List<Map<String, Any>> ?: emptyList()
+                loaded.add(TutorialCourse(
+                    id          = doc.id,
+                    courseName  = doc.getString("courseName") ?: "",
+                    title       = doc.getString("title") ?: "",
+                    className   = doc.getString("className") ?: "",
+                    subject     = doc.getString("subject") ?: "",
+                    description = doc.getString("description") ?: "",
+                    videos      = vr.map { v -> TutorialVideo(
+                        id              = v["id"] as? String ?: "",
+                        title           = v["title"] as? String ?: "",
+                        youtubeUrl      = v["youtubeUrl"] as? String ?: "",
                         durationMinutes = (v["durationMinutes"] as? Long)?.toInt() ?: 0
-                    )
-                }
-                loaded.add(
-                    TutorialCourse(
-                        id = courseDoc.id,
-                        courseName = courseDoc.getString("courseName") ?: "",
-                        title = courseDoc.getString("title") ?: "",
-                        className = courseDoc.getString("className") ?: "",
-                        subject = courseDoc.getString("subject") ?: "",
-                        description = courseDoc.getString("description") ?: "",
-                        videos = videos
-                    )
-                )
+                    )}
+                ))
             }
             courses = loaded
         } catch (_: Exception) {}
         loading = false
     }
 
-    if (showAdminPanel) {
-        TutorialAdminScreen(onBack = { showAdminPanel = false })
-        return
-    }
-
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(TutBg)
+        modifier = Modifier.fillMaxSize().background(TutBg)
     ) {
         // Header
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(listOf(Color(0xFF0D1F38), TutBg))
-                )
+                .background(Brush.verticalGradient(listOf(Color(0xFF0D1F38), TutBg)))
                 .statusBarsPadding()
-                .padding(horizontal = 20.dp, vertical = 16.dp)
+                .padding(horizontal = 16.dp, vertical = 14.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = null, tint = TutText)
+                    Icon(Icons.Default.ArrowBack, null, tint = TutText)
                 }
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(4.dp))
                 Column(Modifier.weight(1f)) {
                     Text("Rajib Tutorial", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = TutText)
-                    Text(userEmail, fontSize = 12.sp, color = TutSubtext, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(userEmail, fontSize = 12.sp, color = TutSub, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
-                if (isAdmin) {
-                    // Admin Panel button
+                if (adminVal) {
                     Box(
                         modifier = Modifier
                             .background(TutAccent2.copy(alpha = 0.2f), RoundedCornerShape(8.dp))
-                            .clickable { showAdminPanel = true }
-                            .padding(horizontal = 10.dp, vertical = 4.dp)
+                            .clickable { onAdminPanel() }
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
-                        Text("Admin ⚙", fontSize = 11.sp, color = TutAccent2, fontWeight = FontWeight.SemiBold)
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.AdminPanelSettings, null, tint = TutAccent2, modifier = Modifier.size(16.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text("Admin", fontSize = 12.sp, color = TutAccent2, fontWeight = FontWeight.SemiBold)
+                        }
                     }
-                    Spacer(Modifier.width(8.dp))
                 }
-
             }
         }
 
@@ -237,25 +230,26 @@ fun CourseListScreen(
         } else if (courses.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(Icons.Default.VideoLibrary, contentDescription = null, tint = TutSubtext, modifier = Modifier.size(64.dp))
+                    Icon(Icons.Default.VideoLibrary, null, tint = TutSub, modifier = Modifier.size(64.dp))
                     Spacer(Modifier.height(16.dp))
-                    Text("No courses enrolled yet", color = TutSubtext, fontSize = 16.sp)
-                    Text("Contact admin for access", color = TutSubtext.copy(alpha = 0.6f), fontSize = 13.sp)
+                    Text("কোনো course enrolled নেই", color = TutSub, fontSize = 16.sp)
+                    Spacer(Modifier.height(6.dp))
+                    Text("Admin এর কাছে access চাও", color = TutSub.copy(alpha = 0.6f), fontSize = 13.sp)
                 }
             }
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier       = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
                     Text(
-                        "My Courses (${courses.size})",
-                        fontSize = 15.sp,
-                        color = TutSubtext,
+                        if (adminVal) "সব Courses (${courses.size})" else "আমার Courses (${courses.size})",
+                        fontSize   = 14.sp,
+                        color      = TutSub,
                         fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        modifier   = Modifier.padding(bottom = 4.dp)
                     )
                 }
                 items(courses) { course ->
@@ -264,61 +258,54 @@ fun CourseListScreen(
             }
         }
     }
-
-
 }
 
 @Composable
 private fun CourseCard(course: TutorialCourse, onClick: () -> Unit) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = TutCard),
+        modifier  = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        shape     = RoundedCornerShape(16.dp),
+        colors    = CardDefaults.cardColors(containerColor = TutCard),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
                     .size(56.dp)
                     .background(
-                        Brush.linearGradient(listOf(TutAccent.copy(alpha = 0.3f), TutAccent2.copy(alpha = 0.3f))),
-                        RoundedCornerShape(12.dp)
+                        Brush.linearGradient(listOf(TutAccent.copy(0.3f), TutAccent2.copy(0.3f))),
+                        RoundedCornerShape(14.dp)
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Default.PlayCircle, contentDescription = null, tint = TutAccent, modifier = Modifier.size(32.dp))
+                Icon(Icons.Default.OndemandVideo, null, tint = TutAccent, modifier = Modifier.size(30.dp))
             }
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 if (course.courseName.isNotEmpty())
-                    Text(course.courseName, fontSize = 13.sp, color = TutAccent2, fontWeight = FontWeight.Medium)
+                    Text(course.courseName, fontSize = 12.sp, color = TutAccent2, fontWeight = FontWeight.Medium)
                 Text(course.title, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = TutText)
-                if (course.className.isNotEmpty() || course.subject.isNotEmpty()) {
+                val meta = listOfNotNull(
+                    course.className.ifEmpty { null },
+                    course.subject.ifEmpty { null }
+                ).joinToString(" • ")
+                if (meta.isNotEmpty()) {
                     Spacer(Modifier.height(3.dp))
-                    Text(
-                        listOfNotNull(
-                            course.className.ifEmpty { null },
-                            course.subject.ifEmpty { null }
-                        ).joinToString(" • "),
-                        fontSize = 12.sp, color = TutSubtext
-                    )
+                    Text(meta, fontSize = 12.sp, color = TutSub)
                 }
                 Spacer(Modifier.height(6.dp))
-                Text("${course.videos.size} videos", fontSize = 11.sp, color = TutAccent)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.PlayCircle, null, tint = TutGreen, modifier = Modifier.size(14.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("${course.videos.size} টি video", fontSize = 12.sp, color = TutGreen)
+                }
             }
-            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = TutSubtext)
+            Icon(Icons.Default.ChevronRight, null, tint = TutSub)
         }
     }
 }
 
-// ─────────────────────────────────────────────────────────────
-// Video List Screen
-// ─────────────────────────────────────────────────────────────
+// ── Video List ────────────────────────────────────────────────
 
 @Composable
 fun VideoListScreen(
@@ -326,12 +313,7 @@ fun VideoListScreen(
     onVideoClick: (TutorialVideo) -> Unit,
     onBack: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(TutBg)
-    ) {
-        // Header
+    Column(modifier = Modifier.fillMaxSize().background(TutBg)) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -341,32 +323,44 @@ fun VideoListScreen(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = null, tint = TutText)
+                    Icon(Icons.Default.ArrowBack, null, tint = TutText)
                 }
                 Spacer(Modifier.width(4.dp))
                 Column(Modifier.weight(1f)) {
-                    Text(course.title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = TutText, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    Text("${course.videos.size} videos", fontSize = 12.sp, color = TutSubtext)
+                    Text(course.title, fontSize = 17.sp, fontWeight = FontWeight.Bold, color = TutText,
+                        maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    val meta = listOfNotNull(
+                        course.className.ifEmpty { null },
+                        course.subject.ifEmpty { null }
+                    ).joinToString(" • ")
+                    Text(
+                        if (meta.isNotEmpty()) meta else "${course.videos.size} টি video",
+                        fontSize = 12.sp, color = TutSub
+                    )
                 }
             }
         }
 
         if (course.videos.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No videos in this course yet", color = TutSubtext)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(Icons.Default.VideoLibrary, null, tint = TutSub, modifier = Modifier.size(56.dp))
+                    Spacer(Modifier.height(12.dp))
+                    Text("এখনো কোনো video নেই", color = TutSub)
+                }
             }
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier       = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items(course.videos.withIndex().toList()) { (index, video) ->
-                    VideoListItem(
-                        index = index + 1,
-                        video = video,
-                        onClick = { onVideoClick(video) }
-                    )
+                item {
+                    Text("${course.videos.size} টি video", fontSize = 13.sp, color = TutSub,
+                        modifier = Modifier.padding(bottom = 4.dp))
+                }
+                items(course.videos.withIndex().toList()) { (i, video) ->
+                    VideoListItem(index = i + 1, video = video, onClick = { onVideoClick(video) })
                 }
             }
         }
@@ -376,48 +370,49 @@ fun VideoListScreen(
 @Composable
 private fun VideoListItem(index: Int, video: TutorialVideo, onClick: () -> Unit) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = TutCard)
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        shape    = RoundedCornerShape(14.dp),
+        colors   = CardDefaults.cardColors(containerColor = TutCard)
     ) {
-        Row(
-            modifier = Modifier.padding(14.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Index badge
+        Row(modifier = Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Box(
-                modifier = Modifier
-                    .size(36.dp)
-                    .background(TutAccent.copy(alpha = 0.15f), CircleShape),
+                modifier = Modifier.size(38.dp).background(TutAccent.copy(0.15f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                Text("$index", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TutAccent)
+                Text("$index", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = TutAccent)
             }
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(video.title, fontSize = 14.sp, fontWeight = FontWeight.Medium, color = TutText)
                 if (video.durationMinutes > 0) {
                     Spacer(Modifier.height(3.dp))
-                    Text("${video.durationMinutes} min", fontSize = 11.sp, color = TutSubtext)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.Schedule, null, tint = TutSub, modifier = Modifier.size(12.dp))
+                        Spacer(Modifier.width(3.dp))
+                        Text("${video.durationMinutes} মিনিট", fontSize = 11.sp, color = TutSub)
+                    }
                 }
             }
-            Icon(Icons.Default.PlayCircleFilled, contentDescription = null, tint = TutAccent, modifier = Modifier.size(28.dp))
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .background(TutGreen.copy(0.15f), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(Icons.Default.PlayArrow, null, tint = TutGreen, modifier = Modifier.size(22.dp))
+            }
         }
     }
 }
 
-// ─────────────────────────────────────────────────────────────
-// Video Player Screen — FLAG_SECURE, no download
-// ─────────────────────────────────────────────────────────────
+// ── YouTube Player Screen ─────────────────────────────────────
 
-@OptIn(UnstableApi::class)
 @Composable
-fun VideoPlayerScreen(video: TutorialVideo, onBack: () -> Unit) {
-    val context = LocalContext.current
+fun YouTubePlayerScreen(video: TutorialVideo, onBack: () -> Unit) {
+    val context  = LocalContext.current
+    val videoId  = extractYouTubeId(video.youtubeUrl)
 
-    // Enable FLAG_SECURE — blocks screenshot + screen record
+    // FLAG_SECURE — screenshot ও screen record block করে
     DisposableEffect(Unit) {
         val activity = context as? Activity
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
@@ -426,77 +421,91 @@ fun VideoPlayerScreen(video: TutorialVideo, onBack: () -> Unit) {
         }
     }
 
-    // Cloudinary URL empty হলে player বানানো যাবে না — error দেখাও
-    if (video.cloudinaryUrl.isBlank()) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(onClick = onBack, modifier = Modifier.align(Alignment.Start)) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = null, tint = Color.White)
-                }
-                Spacer(Modifier.height(32.dp))
-                Icon(Icons.Default.ErrorOutline, contentDescription = null, tint = Color(0xFFFF6B6B), modifier = Modifier.size(56.dp))
-                Spacer(Modifier.height(12.dp))
-                Text("Video not available", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-                Text("URL is missing. Admin must re-upload.", color = Color(0xFF8A9BB0), fontSize = 13.sp)
-            }
-        }
-        return
-    }
-
-    val player = remember {
-        ExoPlayer.Builder(context).build().apply {
-            val mediaItem = MediaItem.fromUri(video.cloudinaryUrl)
-            setMediaItem(mediaItem)
-            prepare()
-            playWhenReady = true
-        }
-    }
-
-    DisposableEffect(Unit) {
-        onDispose { player.release() }
-    }
-
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
+        modifier = Modifier.fillMaxSize().background(Color.Black)
     ) {
         // Top bar
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
-                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .padding(horizontal = 4.dp, vertical = 4.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = null, tint = Color.White)
+                    Icon(Icons.Default.ArrowBack, null, tint = Color.White)
                 }
-                Spacer(Modifier.width(4.dp))
                 Text(
                     video.title,
-                    fontSize = 15.sp,
+                    fontSize   = 15.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
+                    color      = Color.White,
+                    maxLines   = 1,
+                    overflow   = TextOverflow.Ellipsis,
+                    modifier   = Modifier.weight(1f).padding(end = 8.dp)
                 )
             }
         }
 
-        // Video player — full width, 16:9
+        if (videoId.isBlank()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(Icons.Default.ErrorOutline, null, tint = TutRed, modifier = Modifier.size(56.dp))
+                    Spacer(Modifier.height(12.dp))
+                    Text("Video পাওয়া যায়নি", color = Color.White, fontSize = 16.sp)
+                    Text("Admin সঠিক YouTube URL দেয়নি।", color = TutSub, fontSize = 13.sp)
+                }
+            }
+            return@Column
+        }
+
+        // YouTube embed — 16:9 ratio
         AndroidView(
-            factory = {
-                PlayerView(it).apply {
-                    this.player = player
-                    useController = true
-                    controllerShowTimeoutMs = 3000
+            factory = { ctx ->
+                WebView(ctx).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    webViewClient    = WebViewClient()
+                    webChromeClient  = WebChromeClient()
+                    settings.apply {
+                        javaScriptEnabled       = true
+                        domStorageEnabled        = true
+                        mediaPlaybackRequiresUserGesture = false
+                        loadWithOverviewMode     = true
+                        useWideViewPort          = true
+                        mixedContentMode         = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+                    }
+                    // YouTube embed HTML — autoplay, no related videos, no download option
+                    val html = """
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+                            <style>
+                                * { margin:0; padding:0; box-sizing:border-box; background:#000; }
+                                body { background:#000; overflow:hidden; }
+                                .container { position:relative; width:100%; padding-top:56.25%; }
+                                iframe { position:absolute; top:0; left:0; width:100%; height:100%;
+                                         border:none; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <iframe
+                                    src="https://www.youtube.com/embed/$videoId?autoplay=1&rel=0&modestbranding=1&playsinline=1"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </body>
+                        </html>
+                    """.trimIndent()
+                    loadDataWithBaseURL("https://www.youtube.com", html, "text/html", "UTF-8", null)
                 }
             },
             modifier = Modifier
@@ -504,7 +513,7 @@ fun VideoPlayerScreen(video: TutorialVideo, onBack: () -> Unit) {
                 .aspectRatio(16f / 9f)
         )
 
-        // Video info below player
+        // Video info
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -513,7 +522,30 @@ fun VideoPlayerScreen(video: TutorialVideo, onBack: () -> Unit) {
             Text(video.title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
             if (video.durationMinutes > 0) {
                 Spacer(Modifier.height(6.dp))
-                Text("${video.durationMinutes} min", fontSize = 13.sp, color = Color(0xFF8A9BB0))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Schedule, null, tint = TutSub, modifier = Modifier.size(14.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("${video.durationMinutes} মিনিট", fontSize = 13.sp, color = TutSub)
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            // YouTube notice
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF1A1A2E), RoundedCornerShape(10.dp))
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Default.Lock, null, tint = TutAccent, modifier = Modifier.size(16.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    "এই video শুধু এই app এর মধ্যে দেখা যাবে।",
+                    fontSize = 12.sp,
+                    color    = TutSub
+                )
             }
         }
     }

@@ -114,14 +114,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
 
-    // Cloudinary — video upload
-    implementation("com.cloudinary:cloudinary-android:2.5.0") {
-        exclude(group = "com.facebook.fresco")
-    }
-
-    // ExoPlayer — video streaming
-    implementation("androidx.media3:media3-exoplayer:1.3.1")
-    implementation("androidx.media3:media3-ui:1.3.1")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")

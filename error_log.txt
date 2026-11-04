@@ -1,12 +1,250 @@
 ╔══════════════════════════════════════════╗
-║        LAST BUILD: SUCCESS ✅            ║
+║      LAST BUILD: ERROR ❌                ║
+║   Push করার আগে এই error fix করুন।     ║
 ╚══════════════════════════════════════════╝
 
-Build passed at: 2026-11-04 09:01:41 UTC
-Run: #8  |  Commit: c61a41bd58b0fa8dc637c7011aa7b7ab4e0664fc
+=== KOTLIN ERRORS ===
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:171:36 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:199:57 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:199:90 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:162:43 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:222:39 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:313:43 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:370:35 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:248:48 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:264:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:318:36 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:335:40 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:340:32 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:384:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:427:44 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:493:40 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:563:40 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:138:44 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:157:53 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:163:53 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:224:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:324:36 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:338:40 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:527:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:650:58 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:663:58 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:677:58 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:717:40 Unresolved reference 'Link'.
 
-Split APKs generated:
-app/build/outputs/apk/debug/app-x86_64-debug.apk
-app/build/outputs/apk/debug/app-universal-debug.apk
-app/build/outputs/apk/debug/app-arm64-v8a-debug.apk
-app/build/outputs/apk/debug/app-armeabi-v7a-debug.apk
+=== UNRESOLVED / TYPE ERRORS ===
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:171:36 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:199:57 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:199:90 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:162:43 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:222:39 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:313:43 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/UpdateBanner.kt:370:35 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:248:48 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:264:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:318:36 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:335:40 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:340:32 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:384:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:427:44 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:493:40 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:563:40 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:138:44 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:157:53 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:163:53 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:224:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:324:36 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:338:40 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:527:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:650:58 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:663:58 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:677:58 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:717:40 Unresolved reference 'Link'.
+
+=== BUILD FAILURE ===
+> Task :app:compileDebugKotlin FAILED
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin'.
+BUILD FAILED in 44s
+
+=== LAST 60 LINES ===
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:248:48 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:264:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:318:36 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:335:40 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:340:32 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:384:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:427:44 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:493:40 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/RajibTutorialScreen.kt:563:40 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:5:47 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:8:47 Unresolved reference 'ChevronRight'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:11:47 Unresolved reference 'Download'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:14:47 Unresolved reference 'ErrorOutline'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:16:47 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:18:47 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:19:47 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:21:47 Unresolved reference 'PhoneAndroid'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:23:47 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:24:47 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:26:47 Unresolved reference 'SystemUpdate'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:27:47 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:28:47 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:29:47 Unresolved reference 'Visibility'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:30:47 Unresolved reference 'VisibilityOff'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:138:44 Unresolved reference 'AdminPanelSettings'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:157:53 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:163:53 Unresolved reference 'People'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:224:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:324:36 Unresolved reference 'OndemandVideo'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:338:40 Unresolved reference 'PlayCircle'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:527:40 Unresolved reference 'VideoLibrary'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:650:58 Unresolved reference 'Title'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:663:58 Unresolved reference 'Link'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:677:58 Unresolved reference 'Schedule'.
+e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/tutorial/TutorialAdminScreen.kt:717:40 Unresolved reference 'Link'.
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793783171005.json
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 44s
+28 actionable tasks: 21 executed, 7 from cache
+Configuration cache entry stored.

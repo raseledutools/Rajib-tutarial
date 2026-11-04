@@ -76,6 +76,37 @@ android {
         buildConfig = true
     }
 
+    // ── Split APK by ABI ─────────────────────────────────────
+    // প্রতিটা architecture এর জন্য আলাদা ছোট APK তৈরি হবে
+    // arm64-v8a  → সব modern Android phone (2017+)
+    // armeabi-v7a → পুরনো 32-bit phone
+    // x86_64     → emulator
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a", "armeabi-v7a", "x86_64")
+            isUniversalApk = true  // সবার জন্য একটা universal APK ও বানাবে
+        }
+    }
+
+    // প্রতিটা ABI-এর APK কে আলাদা versionCode দাও যাতে Play Store confused না হয়
+    applicationVariants.all {
+        val variant = this
+        variant.outputs
+            .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
+            .forEach { output ->
+                val abiFilter = output.getFilter(com.android.build.OutputFile.ABI)
+                val abiCode = when (abiFilter) {
+                    "armeabi-v7a" -> 1
+                    "arm64-v8a"   -> 2
+                    "x86_64"      -> 3
+                    else          -> 0  // universal
+                }
+                output.versionCodeOverride = variant.versionCode * 10 + abiCode
+            }
+    }
+
     packaging {
         resources {
             excludes += setOf(

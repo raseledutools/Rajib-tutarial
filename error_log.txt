@@ -1,77 +1,12 @@
 ╔══════════════════════════════════════════╗
-║      LAST BUILD: ERROR ❌                ║
-║   Push করার আগে এই error fix করুন।     ║
+║        LAST BUILD: SUCCESS ✅            ║
 ╚══════════════════════════════════════════╝
 
-=== KOTLIN ERRORS ===
-e: This version (1.3.2) of the Compose Compiler requires Kotlin version 1.7.20 but you appear to be using Kotlin version 1.9.24 which is not known to be compatible.  Please fix your configuration (or `suppressKotlinVersionCompatibilityCheck` but don't say I didn't warn you!).
+Build passed at: 2026-11-04 09:01:41 UTC
+Run: #8  |  Commit: c61a41bd58b0fa8dc637c7011aa7b7ab4e0664fc
 
-=== UNRESOLVED / TYPE ERRORS ===
-
-=== BUILD FAILURE ===
-> Task :app:compileDebugKotlin FAILED
-* What went wrong:
-Execution failed for task ':app:compileDebugKotlin'.
-BUILD FAILED in 2m 18s
-
-=== LAST 60 LINES ===
-> Task :app:createDebugCompatibleScreenManifests
-> Task :app:desugarDebugFileDependencies
-> Task :app:generateDebugBuildConfig
-> Task :app:extractDeepLinksDebug
-> Task :app:packageDebugResources
-> Task :app:javaPreCompileDebug
-> Task :app:mergeDebugJniLibFolders
-> Task :app:parseDebugLocalResources
-> Task :app:mergeDebugNativeLibs NO-SOURCE
-> Task :app:stripDebugDebugSymbols NO-SOURCE
-> Task :app:writeDebugAppMetadata
-> Task :app:writeDebugSigningConfigVersions
-> Task :app:mapDebugSourceSetPaths
-> Task :app:checkDebugAarMetadata
-> Task :app:checkDebugDuplicateClasses
-> Task :app:mergeDebugAssets
-> Task :app:validateSigningDebug
-> Task :app:processDebugMainManifest
-> Task :app:processDebugManifest
-> Task :app:compressDebugAssets
-> Task :app:mergeDebugResources
-> Task :app:mergeExtDexDebug
-> Task :app:mergeLibDexDebug
-> Task :app:processDebugManifestForPackage
-note: generating mipmap/ic_launcher_round with config "anydpi-v33" for round icon compatibility.
-
-note: generating mipmap/ic_launcher_round with config "anydpi-v33" for round icon compatibility.
-
-note: generating mipmap/ic_launcher_round with config "anydpi-v33" for round icon compatibility.
-
-note: generating mipmap/ic_launcher_round with config "anydpi-v33" for round icon compatibility.
-
-> Task :app:processDebugResources
-
-> Task :app:compileDebugKotlin FAILED
-e: This version (1.3.2) of the Compose Compiler requires Kotlin version 1.7.20 but you appear to be using Kotlin version 1.9.24 which is not known to be compatible.  Please fix your configuration (or `suppressKotlinVersionCompatibilityCheck` but don't say I didn't warn you!).
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793782220396.json
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':app:compileDebugKotlin'.
-> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
-   > Compilation error. See log for more details
-
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights.
-> Get more help at https://help.gradle.org.
-
-Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
-
-You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
-
-For more on this, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-
-BUILD FAILED in 2m 18s
-26 actionable tasks: 26 executed
-Configuration cache entry stored.
+Split APKs generated:
+app/build/outputs/apk/debug/app-x86_64-debug.apk
+app/build/outputs/apk/debug/app-universal-debug.apk
+app/build/outputs/apk/debug/app-arm64-v8a-debug.apk
+app/build/outputs/apk/debug/app-armeabi-v7a-debug.apk

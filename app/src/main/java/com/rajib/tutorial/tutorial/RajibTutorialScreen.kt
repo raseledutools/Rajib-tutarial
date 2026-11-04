@@ -100,7 +100,7 @@ fun extractYouTubeId(url: String): String {
 // ── Root ─────────────────────────────────────────────────────
 
 @Composable
-fun RajibTutorialRoot(onBack: () -> Unit) {
+fun RajibTutorialRoot(onBack: () -> Unit, updateState: com.rajib.tutorial.UpdateState? = null, onUpdateBannerClick: () -> Unit = {}) {
     var selectedCourse by remember { mutableStateOf<TutorialCourse?>(null) }
     var selectedVideo  by remember { mutableStateOf<TutorialVideo?>(null) }
     var isAdmin        by remember { mutableStateOf(false) }
@@ -119,6 +119,8 @@ fun RajibTutorialRoot(onBack: () -> Unit) {
             onBack        = { selectedCourse = null }
         )
         else -> CourseListScreen(
+            updateState = updateState,
+            onUpdateBannerClick = onUpdateBannerClick,
             isAdmin       = isAdmin,
             onAdminReady  = { isAdmin = it },
             onCourseClick = { selectedCourse = it },
@@ -132,6 +134,8 @@ fun RajibTutorialRoot(onBack: () -> Unit) {
 
 @Composable
 fun CourseListScreen(
+    updateState: com.rajib.tutorial.UpdateState? = null,
+    onUpdateBannerClick: () -> Unit = {},
     isAdmin: Boolean,
     onAdminReady: (Boolean) -> Unit,
     onCourseClick: (TutorialCourse) -> Unit,
@@ -238,6 +242,12 @@ fun CourseListScreen(
                 }
             }
         } else {
+            // Update banner — নতুন version থাকলে দেখাবে
+            com.rajib.tutorial.UpdateBanner(
+                state         = updateState ?: return@Column,
+                onUpdateClick = onUpdateBannerClick,
+                onDismiss     = { updateState.dismissed = true }
+            )
             LazyColumn(
                 modifier       = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp),

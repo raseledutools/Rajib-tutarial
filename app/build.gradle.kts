@@ -30,7 +30,7 @@ android {
             val keystoreB64 = System.getenv("KEYSTORE_BASE64") ?: ""
             if (keystoreB64.isNotEmpty()) {
                 val keystoreFile = File(buildDir, "rasfocus_fixed.keystore")
-                keystoreFile.parentFile.mkdirs()
+                keystoreFile.parentFile?.mkdirs()
                 keystoreFile.writeBytes(Base64.getDecoder().decode(keystoreB64))
                 storeFile     = keystoreFile
                 storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "rasfocus123"
@@ -91,6 +91,7 @@ android {
     }
 
     // প্রতিটা ABI-এর APK কে আলাদা versionCode দাও যাতে Play Store confused না হয়
+    @Suppress("DEPRECATION")
     applicationVariants.all {
         val variant = this
         variant.outputs

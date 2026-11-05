@@ -1,67 +1,12 @@
 ╔══════════════════════════════════════════╗
-║      LAST BUILD: ERROR ❌                ║
-║   Push করার আগে এই error fix করুন।     ║
+║        LAST BUILD: SUCCESS ✅            ║
 ╚══════════════════════════════════════════╝
 
-=== KOTLIN ERRORS ===
+Build passed at: 2026-11-05 13:33:19 UTC
+Run: #15  |  Commit: 313099245a4d3ce8e35ed7a57bc46152ff32bc80
 
-=== UNRESOLVED / TYPE ERRORS ===
-
-=== BUILD FAILURE ===
-> Task :app:validateSigningRelease FAILED
-* What went wrong:
-Execution failed for task ':app:validateSigningRelease'.
-BUILD FAILED in 28s
-
-=== LAST 60 LINES ===
-Starting a Gradle Daemon (subsequent builds will be faster)
-Calculating task graph as no cached configuration is available for tasks: assembleRelease
-> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :app:generateReleaseAssets UP-TO-DATE
-> Task :app:preBuild UP-TO-DATE
-> Task :app:preReleaseBuild UP-TO-DATE
-> Task :app:javaPreCompileRelease FROM-CACHE
-> Task :app:processReleaseGoogleServices FROM-CACHE
-> Task :app:extractDeepLinksRelease FROM-CACHE
-> Task :app:createReleaseCompatibleScreenManifests
-> Task :app:generateReleaseResources
-> Task :app:generateReleaseBuildConfig
-> Task :app:buildKotlinToolingMetadata
-> Task :app:extractProguardFiles
-> Task :app:packageReleaseResources
-> Task :app:mergeReleaseJniLibFolders
-> Task :app:parseReleaseLocalResources FROM-CACHE
-> Task :app:mergeReleaseStartupProfile
-> Task :app:mergeReleaseArtProfile
-> Task :app:mapReleaseSourceSetPaths
-> Task :app:checkReleaseAarMetadata
-> Task :app:mergeReleaseNativeLibs
-> Task :app:validateSigningRelease FAILED
-> Task :app:mergeReleaseAssets
-> Task :app:extractReleaseVersionControlInfo
-> Task :app:checkReleaseDuplicateClasses
-
-> Task :app:stripReleaseDebugSymbols
-Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so.
-
-> Task :app:collectReleaseDependencies
-> Task :app:compressReleaseAssets
-> Task :app:processReleaseMainManifest
-> Task :app:mergeReleaseResources
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793884378359.json
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':app:validateSigningRelease'.
-> Keystore file '/home/runner/.android/debug.keystore' not found for signing config 'autoSign'.
-
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights.
-> Get more help at https://help.gradle.org.
-
-BUILD FAILED in 28s
-25 actionable tasks: 21 executed, 4 from cache
-Configuration cache entry stored.
+Split APKs generated:
+app/build/outputs/apk/release/app-universal-release.apk
+app/build/outputs/apk/release/app-armeabi-v7a-release.apk
+app/build/outputs/apk/release/app-arm64-v8a-release.apk
+app/build/outputs/apk/release/app-x86_64-release.apk

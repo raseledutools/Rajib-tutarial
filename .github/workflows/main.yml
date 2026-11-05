@@ -25,7 +25,7 @@ on:
 #                false → Debug APK  (fast, no minify)
 # ══════════════════════════════════════════════════════
 env:
-  RELEASE_BUILD: true
+  RELEASE_BUILD: false
 
 jobs:
   build:
@@ -122,29 +122,21 @@ jobs:
         if: always()
         run: find app/build/outputs/apk -name "*.apk" -print 2>/dev/null || echo "No APKs found"
 
-      - name: Upload Debug APKs
-        if: env.RELEASE_BUILD == 'false' && success()
+      - name: Upload Debug APKs (artifact)
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: RajibTutorial-debug-split-${{ github.run_number }}
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 30
 
-      - name: Upload Release APKs
-        if: env.RELEASE_BUILD == 'true' && success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: RajibTutorial-release-split-${{ github.run_number }}
-          path: app/build/outputs/apk/release/*.apk
-          retention-days: 30
-
-      - name: Publish to GitHub Release (release only)
-        if: env.RELEASE_BUILD == 'true' && success()
+      - name: Publish Debug APK to GitHub Release
+        if: success()
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ github.run_number }}
           name: Rajib Tutorial v1.0.${{ github.run_number }}
-          files: app/build/outputs/apk/release/*.apk
+          files: app/build/outputs/apk/debug/*.apk
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -42,13 +42,9 @@ android {
         debug {
             if ((System.getenv("KEYSTORE_BASE64") ?: "").isNotEmpty())
                 signingConfig = signingConfigs.getByName("fixedSigning")
-            // R8 shrinking — unused code বাদ দেয়, APK ছোট হয়
-            isMinifyEnabled   = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            // Debug: minify off — install করা যাবে, crash হবে না
+            isMinifyEnabled   = false
+            isShrinkResources = false
         }
         release {
             if ((System.getenv("KEYSTORE_BASE64") ?: "").isNotEmpty())

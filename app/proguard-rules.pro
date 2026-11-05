@@ -11,8 +11,8 @@
 -optimizationpasses 3
 -allowaccessmodification
 
-# -- RasFocus: Keep all class/method (crash-safe) ------------------------------
--keep class com.rasel.RasFocus.** { *; }
+# -- App: Keep all class/method (crash-safe) -----------------------------------
+-keep class com.rajib.tutorial.** { *; }
 
 # -- Kotlin --------------------------------------------------------------------
 -keep class kotlin.Metadata { *; }

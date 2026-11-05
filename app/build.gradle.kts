@@ -1,5 +1,3 @@
-import java.util.Base64
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -23,32 +21,24 @@ android {
     }
 
     signingConfigs {
-        create("fixedSigning") {
-            val b64 = System.getenv("KEYSTORE_BASE64") ?: ""
-            if (b64.isNotEmpty()) {
-                // layout.buildDirectory — buildDir deprecation fix
-                val ksFile = layout.buildDirectory.file("rasfocus_fixed.keystore").get().asFile
-                ksFile.parentFile?.mkdirs()
-                ksFile.writeBytes(Base64.getDecoder().decode(b64))
-                storeFile     = ksFile
-                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "rasfocus123"
-                keyAlias      = System.getenv("KEY_ALIAS")          ?: "rasfocus_debug"
-                keyPassword   = System.getenv("KEY_PASSWORD")       ?: "rasfocus123"
-            }
+        create("autoSign") {
+            // Android default debug keystore — সবসময় available, কোনো secret লাগে না
+            // CI তে ~/.android/debug.keystore automatically থাকে
+            storeFile     = file("${System.getProperty("user.home")}/.android/debug.keystore")
+            storePassword = "android"
+            keyAlias      = "androiddebugkey"
+            keyPassword   = "android"
         }
     }
 
     buildTypes {
         debug {
-            if ((System.getenv("KEYSTORE_BASE64") ?: "").isNotEmpty())
-                signingConfig = signingConfigs.getByName("fixedSigning")
-            // Debug: minify off — install করা যাবে, crash হবে না
+            signingConfig    = signingConfigs.getByName("autoSign")
             isMinifyEnabled   = false
             isShrinkResources = false
         }
         release {
-            if ((System.getenv("KEYSTORE_BASE64") ?: "").isNotEmpty())
-                signingConfig = signingConfigs.getByName("fixedSigning")
+            signingConfig    = signingConfigs.getByName("autoSign")
             isMinifyEnabled   = true
             isShrinkResources = true
             proguardFiles(

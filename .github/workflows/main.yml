@@ -51,6 +51,21 @@ jobs:
         with:
           cache-read-only: false
 
+      - name: Generate debug keystore (if missing)
+        run: |
+          mkdir -p ~/.android
+          if [ ! -f ~/.android/debug.keystore ]; then
+            keytool -genkeypair \
+              -alias androiddebugkey \
+              -keyalg RSA -keysize 2048 -validity 10000 \
+              -keystore ~/.android/debug.keystore \
+              -storepass android -keypass android \
+              -dname "CN=Android Debug, O=Android, C=US" 2>&1
+            echo "debug.keystore generated"
+          else
+            echo "debug.keystore already exists"
+          fi
+
       - name: Build APK
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}

@@ -25,7 +25,7 @@ on:
 #                false → Debug APK  (fast, no minify)
 # ══════════════════════════════════════════════════════
 env:
-  RELEASE_BUILD: false
+  RELEASE_BUILD: true
 
 jobs:
   build:

@@ -2,11 +2,11 @@
 ║        LAST BUILD: SUCCESS ✅            ║
 ╚══════════════════════════════════════════╝
 
-Build passed at: 2026-11-05 07:11:23 UTC
-Run: #12  |  Commit: 30ad66aeff431f5886f057aa8dd22ce51407cd17
+Build passed at: 2026-11-05 12:25:47 UTC
+Run: #13  |  Commit: b8a440f9cf053849cf2c331933441dbae888821e
 
 Split APKs generated:
-app/build/outputs/apk/release/app-universal-release-unsigned.apk
-app/build/outputs/apk/release/app-arm64-v8a-release-unsigned.apk
-app/build/outputs/apk/release/app-x86_64-release-unsigned.apk
-app/build/outputs/apk/release/app-armeabi-v7a-release-unsigned.apk
+app/build/outputs/apk/debug/app-x86_64-debug.apk
+app/build/outputs/apk/debug/app-universal-debug.apk
+app/build/outputs/apk/debug/app-arm64-v8a-debug.apk
+app/build/outputs/apk/debug/app-armeabi-v7a-debug.apk

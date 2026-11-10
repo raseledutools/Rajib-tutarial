@@ -66,7 +66,7 @@ private val AT  = Color(0xFFE8EDF2)
 private val AS  = Color(0xFF8A9BB0)
 private val AP  = Color(0xFF7B5CF5)
 
-private enum class ATab { COURSES, USERS }
+private enum class ATab { COURSES, USERS, DEVICES }
 
 // ── Root ─────────────────────────────────────────────────────
 
@@ -128,19 +128,26 @@ fun TutorialAdminScreen(onBack: () -> Unit) {
                 Tab(
                     selected = tab == ATab.COURSES,
                     onClick  = { tab = ATab.COURSES },
-                    text     = { Text("Courses", color = if (tab == ATab.COURSES) AA else AS) },
-                    icon     = { Icon(Icons.Default.VideoLibrary, null, tint = if (tab == ATab.COURSES) AA else AS) }
+                    text     = { Text("Courses", color = if (tab == ATab.COURSES) AA else AS, fontSize = 12.sp) },
+                    icon     = { Icon(Icons.Default.VideoLibrary, null, tint = if (tab == ATab.COURSES) AA else AS, modifier = Modifier.size(18.dp)) }
                 )
                 Tab(
                     selected = tab == ATab.USERS,
                     onClick  = { tab = ATab.USERS },
-                    text     = { Text("Users", color = if (tab == ATab.USERS) AA else AS) },
-                    icon     = { Icon(Icons.Default.People, null, tint = if (tab == ATab.USERS) AA else AS) }
+                    text     = { Text("Users", color = if (tab == ATab.USERS) AA else AS, fontSize = 12.sp) },
+                    icon     = { Icon(Icons.Default.People, null, tint = if (tab == ATab.USERS) AA else AS, modifier = Modifier.size(18.dp)) }
+                )
+                Tab(
+                    selected = tab == ATab.DEVICES,
+                    onClick  = { tab = ATab.DEVICES },
+                    text     = { Text("Devices", color = if (tab == ATab.DEVICES) AP else AS, fontSize = 12.sp) },
+                    icon     = { Icon(Icons.Default.Devices, null, tint = if (tab == ATab.DEVICES) AP else AS, modifier = Modifier.size(18.dp)) }
                 )
             }
             when (tab) {
                 ATab.COURSES -> CourseManagementScreen(onCourseClick = { selectedCourse = it })
                 ATab.USERS   -> UserEnrollmentScreen()
+                ATab.DEVICES -> DeviceManagementScreen()
             }
         }
     }
@@ -908,6 +915,306 @@ fun UserEnrollmentScreen() {
                 containerColor = AC
             ) { Text(snack, color = AT) }
             LaunchedEffect(snack) { kotlinx.coroutines.delay(2000); snack = "" }
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  Devices Tab — সব member এর login status + device info
+// ═══════════════════════════════════════════════════════════════
+
+data class MemberDeviceInfo(
+    val uid          : String = "",
+    val email        : String = "",
+    val deviceModel  : String = "",
+    val osVersion    : String = "",
+    val sessionToken : String = "",
+    val isBlocked    : Boolean = false,
+    val enrolledCount: Int = 0
+)
+
+@Composable
+fun DeviceManagementScreen() {
+    val db    = FirebaseFirestore.getInstance()
+    val scope = rememberCoroutineScope()
+
+    var members  by remember { mutableStateOf<List<MemberDeviceInfo>>(emptyList()) }
+    var loading  by remember { mutableStateOf(true) }
+    var snack    by remember { mutableStateOf("") }
+
+    fun load() {
+        scope.launch {
+            loading = true
+            try {
+                val snap = db.collection("tutorial_users").get().await()
+                members = snap.documents.mapNotNull { doc ->
+                    val email = doc.getString("email") ?: return@mapNotNull null
+                    if (email.isBlank()) return@mapNotNull null
+                    @Suppress("UNCHECKED_CAST")
+                    val enrolled = (doc.get("enrolledCourses") as? List<*>)?.size ?: 0
+                    MemberDeviceInfo(
+                        uid           = doc.id,
+                        email         = email,
+                        deviceModel   = doc.getString("sessionDeviceModel") ?: "",
+                        osVersion     = doc.getString("sessionOsVersion") ?: "",
+                        sessionToken  = doc.getString("sessionToken") ?: "",
+                        isBlocked     = doc.getBoolean("deviceBlocked") ?: false,
+                        enrolledCount = enrolled
+                    )
+                }.sortedBy { it.email }
+            } catch (_: Exception) {}
+            loading = false
+        }
+    }
+
+    LaunchedEffect(Unit) { load() }
+
+    Box(Modifier.fillMaxSize()) {
+        if (loading) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(color = AP)
+            }
+        } else if (members.isEmpty()) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(Icons.Default.DevicesOther, null, tint = AS, modifier = Modifier.size(56.dp))
+                    Spacer(Modifier.height(12.dp))
+                    Text("কোনো member নেই", color = AS)
+                }
+            }
+        } else {
+            androidx.compose.foundation.lazy.LazyColumn(
+                Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                item {
+                    // Info header
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(AP.copy(0.1f), RoundedCornerShape(12.dp))
+                            .padding(12.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Icon(Icons.Default.Info, null, tint = AP, modifier = Modifier.size(16.dp))
+                        Spacer(Modifier.width(8.dp))
+                        Column {
+                            Text(
+                                "মোট ${members.size} জন member। Block করলে সেই account এ আর login করা যাবে না।",
+                                fontSize = 12.sp, color = AS, lineHeight = 18.sp
+                            )
+                        }
+                    }
+                }
+                items(members.withIndex().toList(), key = { it.value.uid }) { (index, m) ->
+                    MemberDeviceCard(
+                        number  = index + 1,
+                        member  = m,
+                        onBlock = { blocked ->
+                            scope.launch {
+                                try {
+                                    db.collection("tutorial_users").document(m.uid)
+                                        .update("deviceBlocked", blocked).await()
+                                    snack = if (blocked) "${m.email} blocked ✓" else "${m.email} unblocked ✓"
+                                    load()
+                                } catch (_: Exception) { snack = "Update fail" }
+                            }
+                        },
+                        onForceLogout = {
+                            scope.launch {
+                                try {
+                                    // sessionToken clear করো → ওই device কে kick out করে
+                                    db.collection("tutorial_users").document(m.uid)
+                                        .update(mapOf(
+                                            "sessionToken"       to "__force_logout__",
+                                            "sessionDeviceModel" to "",
+                                            "sessionOsVersion"   to ""
+                                        )).await()
+                                    snack = "${m.email} — force logout হয়েছে"
+                                    load()
+                                } catch (_: Exception) { snack = "Logout fail" }
+                            }
+                        }
+                    )
+                }
+                item { Spacer(Modifier.height(60.dp)) }
+            }
+        }
+
+        // Refresh FAB
+        androidx.compose.material3.FloatingActionButton(
+            onClick        = { load() },
+            modifier       = Modifier.align(Alignment.BottomEnd).padding(20.dp),
+            containerColor = AP,
+            contentColor   = Color.White
+        ) { Icon(Icons.Default.Refresh, "Refresh") }
+
+        if (snack.isNotEmpty()) {
+            Snackbar(
+                modifier       = Modifier.align(Alignment.BottomCenter).padding(16.dp),
+                containerColor = AC
+            ) { Text(snack, color = AT) }
+            LaunchedEffect(snack) { kotlinx.coroutines.delay(2200); snack = "" }
+        }
+    }
+}
+
+@Composable
+private fun MemberDeviceCard(
+    number       : Int,
+    member       : MemberDeviceInfo,
+    onBlock      : (Boolean) -> Unit,
+    onForceLogout: () -> Unit
+) {
+    val hasDevice    = member.sessionToken.isNotEmpty() && member.sessionToken != "__force_logout__"
+    val borderColor  = when {
+        member.isBlocked -> AR.copy(0.5f)
+        hasDevice        -> AG.copy(0.4f)
+        else             -> AS.copy(0.2f)
+    }
+
+    Card(
+        Modifier.fillMaxWidth(),
+        shape  = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = AC),
+        border = androidx.compose.foundation.BorderStroke(1.dp, borderColor)
+    ) {
+        Column(Modifier.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                // Number badge
+                Box(
+                    Modifier
+                        .size(34.dp)
+                        .background(
+                            if (member.isBlocked) AR.copy(0.15f) else AP.copy(0.15f),
+                            androidx.compose.foundation.shape.CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        "$number",
+                        fontSize   = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        color      = if (member.isBlocked) AR else AP
+                    )
+                }
+                Spacer(Modifier.width(10.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        member.email,
+                        fontSize   = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color      = if (member.isBlocked) AR else AT,
+                        maxLines   = 1,
+                        overflow   = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        "${member.enrolledCount} টি course",
+                        fontSize = 11.sp,
+                        color    = AS
+                    )
+                }
+                // Blocked badge
+                if (member.isBlocked) {
+                    Box(
+                        Modifier
+                            .background(AR.copy(0.15f), RoundedCornerShape(6.dp))
+                            .padding(horizontal = 8.dp, vertical = 3.dp)
+                    ) { Text("Blocked", fontSize = 10.sp, color = AR, fontWeight = FontWeight.SemiBold) }
+                }
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            // Device info row
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        if (hasDevice) AG.copy(0.07f) else AS.copy(0.05f),
+                        RoundedCornerShape(10.dp)
+                    )
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    if (hasDevice) Icons.Default.Smartphone else Icons.Default.PhoneDisabled,
+                    null,
+                    tint     = if (hasDevice) AG else AS,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+                Column(Modifier.weight(1f)) {
+                    if (hasDevice) {
+                        Text(
+                            member.deviceModel.ifEmpty { "Device info নেই" },
+                            fontSize   = 13.sp,
+                            fontWeight = FontWeight.Medium,
+                            color      = AT
+                        )
+                        if (member.osVersion.isNotEmpty()) {
+                            Text(member.osVersion, fontSize = 11.sp, color = AS)
+                        }
+                    } else {
+                        Text("কোনো device এ login নেই", fontSize = 13.sp, color = AS)
+                    }
+                }
+                // Online indicator
+                if (hasDevice) {
+                    Box(
+                        Modifier
+                            .size(8.dp)
+                            .background(AG, androidx.compose.foundation.shape.CircleShape)
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            // Action buttons
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                // Block / Unblock
+                OutlinedButton(
+                    onClick  = { onBlock(!member.isBlocked) },
+                    modifier = Modifier.weight(1f).height(36.dp),
+                    shape    = RoundedCornerShape(10.dp),
+                    colors   = ButtonDefaults.outlinedButtonColors(
+                        contentColor = if (member.isBlocked) AG else AR
+                    ),
+                    border   = androidx.compose.foundation.BorderStroke(
+                        1.dp, if (member.isBlocked) AG.copy(0.5f) else AR.copy(0.5f)
+                    ),
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                ) {
+                    Icon(
+                        if (member.isBlocked) Icons.Default.LockOpen else Icons.Default.Block,
+                        null,
+                        modifier = Modifier.size(14.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(
+                        if (member.isBlocked) "Unblock" else "Block",
+                        fontSize = 12.sp
+                    )
+                }
+
+                // Force Logout
+                if (hasDevice) {
+                    OutlinedButton(
+                        onClick  = onForceLogout,
+                        modifier = Modifier.weight(1f).height(36.dp),
+                        shape    = RoundedCornerShape(10.dp),
+                        colors   = ButtonDefaults.outlinedButtonColors(contentColor = AS),
+                        border   = androidx.compose.foundation.BorderStroke(1.dp, AS.copy(0.3f)),
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                    ) {
+                        Icon(Icons.Default.Logout, null, modifier = Modifier.size(14.dp))
+                        Spacer(Modifier.width(4.dp))
+                        Text("Force Logout", fontSize = 12.sp)
+                    }
+                }
+            }
         }
     }
 }

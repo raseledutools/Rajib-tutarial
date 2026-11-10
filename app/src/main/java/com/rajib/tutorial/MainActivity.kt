@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.*
 
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -26,10 +27,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.rajib.tutorial.tutorial.RajibTutorialRoot
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 
 private val TutBg     = Color(0xFF0F1923)
 private val TutCard   = Color(0xFF1A2535)
@@ -43,41 +47,171 @@ private sealed class AppScreen {
     object Main  : AppScreen()
 }
 
+// ── Single-device session manager ────────────────────────────
+object SessionManager {
+    // SharedPreferences key
+    private const val PREFS      = "session_prefs"
+    private const val KEY_TOKEN  = "session_token"
+
+    /** Current device এর unique session token — app install এ একবার generate হয় */
+    fun getOrCreateToken(context: android.content.Context): String {
+        val prefs = context.getSharedPreferences(PREFS, android.content.Context.MODE_PRIVATE)
+        var token = prefs.getString(KEY_TOKEN, null)
+        if (token.isNullOrBlank()) {
+            token = UUID.randomUUID().toString()
+            prefs.edit().putString(KEY_TOKEN, token).apply()
+        }
+        return token
+    }
+
+    /** Login সফল হলে Firebase তে এই device এর token লিখে রাখো */
+    suspend fun registerSession(context: android.content.Context, uid: String) {
+        val token = getOrCreateToken(context)
+        FirebaseFirestore.getInstance()
+            .collection("tutorial_users")
+            .document(uid)
+            .update(mapOf(
+                "sessionToken"    to token,
+                "sessionUpdated"  to FieldValue.serverTimestamp()
+            )).await()
+    }
+
+    /** Firebase এ stored token এর সাথে এই device এর token মেলে কিনা */
+    suspend fun isSessionValid(context: android.content.Context, uid: String): Boolean {
+        return try {
+            val doc = FirebaseFirestore.getInstance()
+                .collection("tutorial_users")
+                .document(uid)
+                .get().await()
+            val storedToken = doc.getString("sessionToken") ?: return true // পুরনো user যাদের token নেই তাদের allow করো
+            val myToken = getOrCreateToken(context)
+            storedToken == myToken
+        } catch (_: Exception) {
+            true // network error হলে kick out করা ঠিক না
+        }
+    }
+}
+
 class MainActivity : ComponentActivity() {
+
+    private var sessionListener: ListenerRegistration? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // ── Screenshot, screen record, text copy সব block ────
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         enableEdgeToEdge()
-        setContent { MaterialTheme { RajibTutorialApp() } }
+        setContent { MaterialTheme { RajibTutorialApp(onForceLogout = { forceLogout() }) } }
+    }
+
+    /** Firebase realtime listener চালু করো — অন্য device login করলে এই device কে kick out করে */
+    fun startSessionWatch(uid: String, onInvalidSession: () -> Unit) {
+        sessionListener?.remove()
+        val myToken = SessionManager.getOrCreateToken(this)
+        sessionListener = FirebaseFirestore.getInstance()
+            .collection("tutorial_users")
+            .document(uid)
+            .addSnapshotListener { snap, err ->
+                if (err != null || snap == null) return@addSnapshotListener
+                val storedToken = snap.getString("sessionToken") ?: return@addSnapshotListener
+                if (storedToken != myToken) {
+                    onInvalidSession()
+                }
+            }
+    }
+
+    fun stopSessionWatch() {
+        sessionListener?.remove()
+        sessionListener = null
+    }
+
+    private fun forceLogout() {
+        stopSessionWatch()
+        FirebaseAuth.getInstance().signOut()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopSessionWatch()
     }
 }
 
 @Composable
-fun RajibTutorialApp() {
-    val auth = FirebaseAuth.getInstance()
+fun RajibTutorialApp(onForceLogout: () -> Unit = {}) {
+    val auth    = FirebaseAuth.getInstance()
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val activity = context as? MainActivity
+
     var screen by remember {
         mutableStateOf<AppScreen>(
             if (auth.currentUser != null) AppScreen.Main else AppScreen.Login
         )
     }
 
-    // ── Update state ──────────────────────────────────────────
-    val updateState  = remember { UpdateState() }
-    val scope        = rememberCoroutineScope()
-    val context      = androidx.compose.ui.platform.LocalContext.current
+    // ── Single-device kick-out dialog ─────────────────────────
+    var showKickedDialog by remember { mutableStateOf(false) }
 
-    // App launch হলে background এ update check করো
+    // ── Update state ──────────────────────────────────────────
+    val updateState = remember { UpdateState() }
+    val scope       = rememberCoroutineScope()
+
+    // Session watch — Main screen এ ঢুকলে start করো
     LaunchedEffect(screen) {
-        if (screen is AppScreen.Main && !updateState.checking) {
-            updateState.checking = true
-            val release = UpdateManager.fetchLatestRelease()
-            if (release != null) {
-                updateState.release = release
-                val hasUpd = UpdateManager.hasUpdate(context, release)
-                val skipped = UpdateManager.isVersionSkipped(context, release.versionCode)
-                updateState.hasUpdate = hasUpd && !skipped
+        if (screen is AppScreen.Main) {
+            val uid = auth.currentUser?.uid
+            if (uid != null) {
+                activity?.startSessionWatch(uid) {
+                    // অন্য device থেকে login হলে এখানে আসবে
+                    showKickedDialog = true
+                }
             }
-            updateState.checking = false
+            // Update check
+            if (!updateState.checking) {
+                updateState.checking = true
+                val release = UpdateManager.fetchLatestRelease()
+                if (release != null) {
+                    updateState.release = release
+                    val hasUpd  = UpdateManager.hasUpdate(context, release)
+                    val skipped = UpdateManager.isVersionSkipped(context, release.versionCode)
+                    updateState.hasUpdate = hasUpd && !skipped
+                }
+                updateState.checking = false
+            }
+        } else {
+            activity?.stopSessionWatch()
         }
+    }
+
+    // ── Kicked-out dialog ─────────────────────────────────────
+    if (showKickedDialog) {
+        AlertDialog(
+            onDismissRequest = { /* dismiss করা যাবে না */ },
+            icon  = {
+                Icon(Icons.Default.DevicesOther, null, tint = TutRed, modifier = androidx.compose.ui.Modifier.size(40.dp))
+            },
+            title = { Text("অন্য device এ login হয়েছে", color = TutText, fontWeight = FontWeight.Bold) },
+            text  = {
+                Text(
+                    "তোমার account অন্য কোনো device বা browser থেকে login করা হয়েছে।\n\nএক সাথে দুটো device এ login করা যাবে না।\n\nতুমি যদি নিজে login করনি তাহলে password পরিবর্তন করো।",
+                    color    = TutSub,
+                    fontSize = 14.sp
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showKickedDialog = false
+                        onForceLogout()
+                        screen = AppScreen.Login
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = TutRed)
+                ) {
+                    Text("ঠিক আছে, Logout", color = Color.White)
+                }
+            },
+            containerColor = TutCard,
+            shape          = RoundedCornerShape(20.dp)
+        )
     }
 
     when (screen) {
@@ -87,19 +221,16 @@ fun RajibTutorialApp() {
         is AppScreen.Main  -> {
             Box(Modifier.fillMaxSize()) {
                 RajibTutorialRoot(
-                    onBack          = { },
-                    updateState     = updateState,
-                    onUpdateBannerClick = {
-                        updateState.showDialog = true
-                    }
+                    onBack              = { },
+                    updateState         = updateState,
+                    onUpdateBannerClick = { updateState.showDialog = true }
                 )
-
                 // Full update dialog
                 UpdateDialog(
                     state     = updateState,
                     onDismiss = {
-                        updateState.showDialog  = false
-                        updateState.dismissed   = true
+                        updateState.showDialog = false
+                        updateState.dismissed  = true
                     }
                 )
             }
@@ -213,6 +344,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                                         "enrolledCourses" to emptyList<String>()
                                     )).await()
                                 }
+                                // ── Single-device: এই device এর token Firebase এ লিখো ──
+                                // পুরনো device এর token overwrite হবে, সে kick out পাবে
+                                SessionManager.registerSession(context, uid)
                             }
                             onLoginSuccess()
                         } catch (e: Exception) {

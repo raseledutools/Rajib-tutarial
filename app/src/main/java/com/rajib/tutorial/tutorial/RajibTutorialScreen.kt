@@ -492,6 +492,9 @@ fun YouTubePlayerScreen(video: TutorialVideo, onBack: () -> Unit) {
                         useWideViewPort          = true
                         mixedContentMode         = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                     }
+                    // Long-press → context menu (copy/share) block করো
+                    isLongClickable = false
+                    setOnLongClickListener { true }
                     // YouTube embed HTML — autoplay, no related videos, no download option
                     val html = """
                         <!DOCTYPE html>
@@ -499,11 +502,13 @@ fun YouTubePlayerScreen(video: TutorialVideo, onBack: () -> Unit) {
                         <head>
                             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
                             <style>
-                                * { margin:0; padding:0; box-sizing:border-box; background:#000; }
+                                * { margin:0; padding:0; box-sizing:border-box; background:#000;
+                                    -webkit-user-select:none; user-select:none;
+                                    -webkit-touch-callout:none; }
                                 body { background:#000; overflow:hidden; }
                                 .container { position:relative; width:100%; padding-top:56.25%; }
                                 iframe { position:absolute; top:0; left:0; width:100%; height:100%;
-                                         border:none; }
+                                         border:none; pointer-events:auto; }
                             </style>
                         </head>
                         <body>

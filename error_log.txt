@@ -1,78 +1,12 @@
 ╔══════════════════════════════════════════╗
-║      LAST BUILD: ERROR ❌                ║
-║   Push করার আগে এই error fix করুন।     ║
+║        LAST BUILD: SUCCESS ✅            ║
 ╚══════════════════════════════════════════╝
 
-=== KOTLIN ERRORS ===
-e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:349:64 Unresolved reference 'context'.
+Build passed at: 2026-11-10 09:42:32 UTC
+Run: #18  |  Commit: ce155839a7249f4a3a4e77bdccdaa6150cf0e386
 
-=== UNRESOLVED / TYPE ERRORS ===
-e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:349:64 Unresolved reference 'context'.
-
-=== BUILD FAILURE ===
-> Task :app:compileReleaseKotlin FAILED
-* What went wrong:
-Execution failed for task ':app:compileReleaseKotlin'.
-BUILD FAILED in 22s
-
-=== LAST 60 LINES ===
-> Task :app:createReleaseCompatibleScreenManifests
-> Task :app:extractProguardFiles
-> Task :app:generateReleaseBuildConfig
-> Task :app:packageReleaseResources FROM-CACHE
-> Task :app:parseReleaseLocalResources FROM-CACHE
-> Task :app:mergeReleaseStartupProfile
-> Task :app:checkReleaseAarMetadata
-> Task :app:mergeReleaseJniLibFolders
-> Task :app:mergeReleaseAssets
-> Task :app:mapReleaseSourceSetPaths
-> Task :app:compressReleaseAssets FROM-CACHE
-> Task :app:validateSigningRelease
-> Task :app:writeReleaseAppMetadata
-> Task :app:mergeReleaseArtProfile
-> Task :app:extractReleaseVersionControlInfo
-> Task :app:checkReleaseDuplicateClasses
-> Task :app:writeReleaseSigningConfigVersions
-> Task :app:mergeReleaseNativeLibs
-
-> Task :app:stripReleaseDebugSymbols
-Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so.
-
-> Task :app:extractReleaseNativeSymbolTables FROM-CACHE
-> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
-> Task :app:collectReleaseDependencies
-> Task :app:processReleaseMainManifest
-> Task :app:mergeReleaseResources FROM-CACHE
-> Task :app:sdkReleaseDependencyData
-> Task :app:processReleaseManifest
-> Task :app:processReleaseManifestForPackage
-note: generating mipmap/ic_launcher_round with config "anydpi-v33" for round icon compatibility.
-
-note: generating mipmap/ic_launcher_round with config "anydpi-v33" for round icon compatibility.
-
-note: generating mipmap/ic_launcher_round with config "anydpi-v33" for round icon compatibility.
-
-note: generating mipmap/ic_launcher_round with config "anydpi-v33" for round icon compatibility.
-
-> Task :app:processReleaseResources
-
-> Task :app:compileReleaseKotlin FAILED
-e: file:///home/runner/work/Rajib-tutarial/Rajib-tutarial/app/src/main/java/com/rajib/tutorial/MainActivity.kt:349:64 Unresolved reference 'context'.
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_3-1794303071322.json
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':app:compileReleaseKotlin'.
-> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
-   > Compilation error. See log for more details
-
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights.
-> Get more help at https://help.gradle.org.
-
-BUILD FAILED in 22s
-33 actionable tasks: 24 executed, 9 from cache
-Configuration cache entry stored.
+Split APKs generated:
+app/build/outputs/apk/release/app-universal-release.apk
+app/build/outputs/apk/release/app-armeabi-v7a-release.apk
+app/build/outputs/apk/release/app-arm64-v8a-release.apk
+app/build/outputs/apk/release/app-x86_64-release.apk
